@@ -15,35 +15,44 @@ justify-content:center;
 font-family: "Helvetica", sans-serif;
 }
 
+/* コンテナ */
 .wrap{
 position:relative;
 width:100%;
 max-width:420px;
 }
 
+/* 背景画像 */
 .bg{
 width:100%;
 display:block;
 }
 
-/* UI全体 */
+/* UIレイヤー */
 .ui{
 position:absolute;
 top:50%;
 left:50%;
-transform:translate(-50%,-42%);
+transform:translate(-50%,-45%);
 width:86%;
 text-align:center;
 }
 
-/* 小さいテキスト */
+/* ロゴ */
+.logo{
+width:130px;
+margin:0 auto 10px auto;
+display:block;
+}
+
+/* テキスト */
 .sub{
 font-size:13px;
 color:#333;
-margin-bottom:10px;
+margin-bottom:14px;
 }
 
-/* ===== ORDER（黒×金） ===== */
+/* ORDERボタン */
 .order{
 display:block;
 width:100%;
@@ -51,7 +60,7 @@ padding:18px 0;
 border-radius:16px;
 
 background:#111;
-color:#C8A96A; /* 金 */
+color:#C8A96A;
 text-decoration:none;
 letter-spacing:3px;
 font-weight:500;
@@ -60,7 +69,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.25);
 margin-bottom:22px;
 }
 
-/* ===== 下ボタン共通 ===== */
+/* 下ボタン */
 .bottom{
 display:flex;
 gap:12px;
@@ -71,7 +80,7 @@ flex:1;
 padding:14px 0;
 border-radius:12px;
 
-background:rgba(245,236,220,0.85); /* ベージュ */
+background:rgba(245,236,220,0.85);
 border:1px solid #C8A96A;
 
 color:#111;
@@ -83,14 +92,9 @@ backdrop-filter: blur(8px);
 -webkit-backdrop-filter: blur(8px);
 }
 
-/* hover感（スマホでも少し効く） */
-.order:active{
-transform:scale(0.99);
-}
-
-.btn:active{
-transform:scale(0.98);
-}
+/* 押した感 */
+.order:active{ transform:scale(0.99); }
+.btn:active{ transform:scale(0.98); }
 
 </style>
 </head>
@@ -99,24 +103,65 @@ transform:scale(0.98);
 
 <div class="wrap">
 
+<!-- 背景 -->
 <img class="bg" src="flum.jpg">
 
+<!-- UI -->
 <div class="ui">
 
+<!-- ロゴ -->
+<img class="logo" src="logo.png" alt="FLÜM">
+
+<!-- テキスト -->
 <div class="sub">ご注文はこちらから</div>
 
-<a class="order" href="#">
+<!-- ORDER -->
+<a class="order" id="orderBtn" href="#">
 ORDER →
 </a>
 
+<!-- 下ボタン -->
 <div class="bottom">
-  <a class="btn" href="#">INSTAGRAM</a>
+  <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
   <a class="btn" href="#">REVIEWS</a>
 </div>
 
 </div>
-
 </div>
+
+<script>
+
+/* =========================
+   テーブル判別
+========================= */
+const params = new URLSearchParams(window.location.search);
+const table = params.get("t");
+
+/* =========================
+   AirレジURLマッピング
+========================= */
+const urls = {
+  "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
+  "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
+  "3": "https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
+  "4": "https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
+  "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
+};
+
+/* =========================
+   ORDERクリック
+========================= */
+document.getElementById("orderBtn").addEventListener("click", function(e){
+  e.preventDefault();
+
+  if(urls[table]){
+    window.location.href = urls[table];
+  } else {
+    alert("テーブルが認識できません（QRの?t=を確認）");
+  }
+});
+
+</script>
 
 </body>
 </html>
