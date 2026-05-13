@@ -7,6 +7,7 @@
 
 <style>
 
+/* ===== ベース ===== */
 body{
 margin:0;
 background:#000;
@@ -16,7 +17,7 @@ align-items:center;
 height:100vh;
 }
 
-/* コンテナ */
+/* ===== コンテナ ===== */
 .wrap{
 position:relative;
 width:100%;
@@ -24,30 +25,30 @@ max-width:420px;
 font-size:0;
 }
 
-/* 画像 */
+/* ===== 画像 ===== */
 .bg{
 width:100%;
 display:block;
 }
 
-/* クリック共通 */
+/* ===== クリックエリア共通 ===== */
 .area{
 position:absolute;
 }
 
 /* =========================
-   ORDER（中央ボタン部分）
+   ORDER（位置修正済み）
 ========================= */
 .order{
 left:50%;
 transform:translateX(-50%);
-top:36%;
+top:34%; /* ←ここ下げて調整済み */
 width:80%;
 height:20%;
 }
 
 /* =========================
-   INSTAGRAM（左下）
+   INSTAGRAM
 ========================= */
 .ig{
 left:8%;
@@ -57,7 +58,7 @@ height:18%;
 }
 
 /* =========================
-   REVIEWS（右下）
+   REVIEWS
 ========================= */
 .rev{
 right:8%;
@@ -90,6 +91,7 @@ opacity:0.6;
 
 <script>
 
+/* ===== テーブル判別 ===== */
 const params = new URLSearchParams(window.location.search);
 const table = params.get("t");
 
@@ -101,12 +103,12 @@ const urls = {
 "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
+/* ===== ORDER動作（alert削除済み） ===== */
 document.getElementById("orderBtn").onclick = (e) => {
   e.preventDefault();
+
   if(urls[table]){
     window.location.href = urls[table];
-  } else {
-    alert("テーブルなし");
   }
 };
 
