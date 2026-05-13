@@ -16,11 +16,33 @@ justify-content:center;
 align-items:center;
 background:#000;
 font-family:sans-serif;
+overflow:hidden;
+}
+
+/* ===== 煙レイヤー ===== */
+.smoke-effect{
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at 30% 40%, rgba(255,255,255,0.12), transparent 60%),
+radial-gradient(circle at 70% 60%, rgba(255,255,255,0.10), transparent 65%);
+filter: blur(40px);
+animation: smokeMove 12s ease-in-out infinite;
+z-index:0;
+opacity:0.6;
+}
+
+@keyframes smokeMove{
+0%{transform:translateY(0px) scale(1);}
+50%{transform:translateY(-20px) scale(1.05);}
+100%{transform:translateY(0px) scale(1);}
 }
 
 /* ===== コンテナ ===== */
 .wrap{
 position:relative;
+z-index:2;
 width:100%;
 max-width:420px;
 }
@@ -30,6 +52,8 @@ max-width:420px;
 width:100%;
 display:block;
 border-radius:18px;
+position:relative;
+z-index:1;
 }
 
 /* ===== ボタン共通 ===== */
@@ -44,6 +68,7 @@ letter-spacing:2px;
 font-size:13px;
 transition:0.2s ease;
 backdrop-filter: blur(8px);
+z-index:3;
 }
 
 /* ===== ORDER ===== */
@@ -74,41 +99,20 @@ transform:translateX(-50%) scale(0.96);
 opacity:0.8;
 }
 
-.wrap{
-position:relative;
-z-index:2;
-}
-
 </style>
-  .smoke-effect{
-position:fixed;
-inset:0;
-pointer-events:none;
-background:
-radial-gradient(circle at 30% 40%, rgba(255,255,255,0.12), transparent 60%),
-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.10), transparent 65%);
-filter: blur(40px);
-animation: smokeMove 12s ease-in-out infinite;
-z-index:0;
-}
-
-@keyframes smokeMove{
-0%{transform:translateY(0px) scale(1);}
-50%{transform:translateY(-20px) scale(1.05);}
-100%{transform:translateY(0px) scale(1);}
-}
-
 </head>
 
 <body>
 
+<!-- 🌫煙 -->
+<div class="smoke-effect"></div>
+
 <div class="wrap">
-  <div class="smoke-effect"></div>
-  
-  <!-- ★ここが最終画像 -->
+
+  <!-- 🖼背景画像 -->
   <img class="bg" src="flum.jpg" />
 
-  <!-- ボタン -->
+  <!-- 🔘ボタン -->
   <a class="btn order" id="orderBtn">ORDER →</a>
 
   <a class="btn ig" href="https://www.instagram.com/flum0701">INSTAGRAM</a>
@@ -119,11 +123,10 @@ z-index:0;
 
 <script>
 
-/* ===== URLの ?t= を取得 ===== */
+/* ===== テーブル判別 ===== */
 const params = new URLSearchParams(window.location.search);
 const table = params.get("t");
 
-/* ===== テーブル別リンク ===== */
 const urls = {
 "1":"https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
 "2":"https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
@@ -132,7 +135,7 @@ const urls = {
 "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
-/* ===== ORDERボタン動作 ===== */
+/* ===== ORDER動作 ===== */
 document.getElementById("orderBtn").onclick = () => {
   if(urls[table]){
     window.location.href = urls[table];
