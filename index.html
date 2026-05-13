@@ -73,13 +73,15 @@ font-weight:600;
 margin-bottom:14px;
 }
 
-/* 説明文 */
+/* 説明文（プロ版：見やすく改善） */
 .coupon-text{
 font-size:12px;
-color:#bbb;
-line-height:1.6;
+color:#222;
+line-height:1.7;
 margin:10px 0 18px;
 text-align:center;
+font-weight:500;
+opacity:0.9;
 }
 
 /* 下ボタン */
@@ -120,12 +122,10 @@ backdrop-filter: blur(10px);
 
 <a class="order" id="orderBtn">ORDER</a>
 
-<!-- LINE -->
 <a class="line" href="https://lin.ee/s4wHdT9" target="_blank">
 LINE 友だち追加
 </a>
 
-<!-- 説明 -->
 <p class="coupon-text">
 LINEにて限定割引クーポン配信中🌸<br>
 是非ご登録下さい😊<br><br>
@@ -135,7 +135,7 @@ LINEにて限定割引クーポン配信中🌸<br>
 <div class="bottom">
   <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
 
-  <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98&source=g.page.m.ia._&laa=nmx-review-solicitation-ia2" target="_blank">
+  <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98" target="_blank">
     REVIEWS
   </a>
 </div>
@@ -146,9 +146,20 @@ LINEにて限定割引クーポン配信中🌸<br>
 <script>
 
 /* =========================
-   卓判別
+   卓判別（強化版）
 ========================= */
-let table = new URLSearchParams(window.location.search).get("t");
+const params = new URLSearchParams(window.location.search);
+let table = params.get("t");
+
+/* 無効チェック */
+if (!table || !["1","2","3","4","5"].includes(table)) {
+  console.warn("table error:", table);
+
+  alert(
+    "テーブルが認識できません\n\n" +
+    "原因：QRのURLに ?t=1〜5 が入っていません"
+  );
+}
 
 /* =========================
    AirレジURL
@@ -167,10 +178,13 @@ const urls = {
 document.getElementById("orderBtn").addEventListener("click", function(e){
   e.preventDefault();
 
-  if (urls[table]) {
+  if (table && urls[table]) {
     window.location.href = urls[table];
   } else {
-    alert("テーブルが認識できません（QRを確認）");
+    alert(
+      "テーブル未設定\n\n" +
+      "もう一度QRを読み込んでください"
+    );
   }
 
 });
