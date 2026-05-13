@@ -6,7 +6,7 @@ const liffId = "2007912475-TlwIvzlF";
 
 /* 席保存 */
 const table = new URLSearchParams(location.search).get("t");
-if (table) sessionStorage.setItem("table", table);
+if (table) localStorage.setItem("table", table);
 
 /* LIFF初期化 */
 liff.init({ liffId }).then(() => {
