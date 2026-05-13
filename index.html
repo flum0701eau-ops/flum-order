@@ -74,13 +74,37 @@ transform:translateX(-50%) scale(0.96);
 opacity:0.8;
 }
 
+.wrap{
+position:relative;
+z-index:2;
+}
+
 </style>
+  .smoke-effect{
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at 30% 40%, rgba(255,255,255,0.12), transparent 60%),
+radial-gradient(circle at 70% 60%, rgba(255,255,255,0.10), transparent 65%);
+filter: blur(40px);
+animation: smokeMove 12s ease-in-out infinite;
+z-index:0;
+}
+
+@keyframes smokeMove{
+0%{transform:translateY(0px) scale(1);}
+50%{transform:translateY(-20px) scale(1.05);}
+100%{transform:translateY(0px) scale(1);}
+}
+
 </head>
 
 <body>
 
 <div class="wrap">
-
+  <div class="smoke-effect"></div>
+  
   <!-- ★ここが最終画像 -->
   <img class="bg" src="flum.jpg" />
 
