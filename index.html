@@ -6,14 +6,23 @@ const liffId = "2007912475-TlwIvzlF";
 
 /* 席保存 */
 const table = new URLSearchParams(location.search).get("t");
-if (table) localStorage.setItem("table", table);
 
-/* LIFF初期化 */
+if (table) {
+  localStorage.setItem("table", table);
+}
+
+/* LIFF起動 */
 liff.init({ liffId }).then(() => {
-  // LINE内で開かれてる時だけ閉じる
+
+  // LINEアプリ内でだけ閉じる
   if (liff.isInClient()) {
     liff.closeWindow();
+  } else {
+    console.log("LINE外で開いてる");
   }
+
+}).catch(err => {
+  console.log("LIFF ERROR:", err);
 });
 
 </script>
