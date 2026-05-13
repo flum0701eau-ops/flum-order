@@ -1,10 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>FLÜM ORDER</title>
+
+<style>
+body{
+margin:0;
+background:#f4f1eb;
+font-family:sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+width:90%;
+max-width:380px;
+background:white;
+border-radius:24px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.hero{
+padding:40px 20px;
+text-align:center;
+background:#ece7de;
+}
+
+.hero h1{
+margin:0;
+font-size:32px;
+letter-spacing:4px;
+}
+
+.hero p{
+margin-top:10px;
+color:#666;
+}
+
+.menu{
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.button{
+background:black;
+color:white;
+padding:18px;
+border-radius:16px;
+text-align:center;
+font-size:18px;
+font-weight:bold;
+text-decoration:none;
+}
+
+.sub{
+background:#f2f2f2;
+color:black;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="hero">
+<h1>FLÜM</h1>
+<p>SHISHA CAFE & BAR</p>
+</div>
+
+<div class="menu">
+<a class="button" id="orderBtn">ORDER</a>
+
+<a class="button sub"
+href="https://www.instagram.com/flum0701">
+INSTAGRAM
+</a>
+
+<a class="button sub"
+href="https://maps.app.goo.gl/thzNT56A8iuxtTE37">
+REVIEWS
+</a>
+</div>
+
+</div>
+
 <script>
 const params = new URLSearchParams(window.location.search);
-const t = params.get("t");
+const table = params.get("t");
 
 const urls = {
 "1":"https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
@@ -14,11 +105,12 @@ const urls = {
 "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
-if(urls[t]){
-window.location.href = urls[t];
+document.getElementById("orderBtn").onclick = () => {
+if(urls[table]){
+window.location.href = urls[table];
 }
+};
 </script>
-</head>
-<body>
+
 </body>
 </html>
