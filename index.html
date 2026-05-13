@@ -7,72 +7,55 @@
 
 <style>
 
-/* ===== ベース ===== */
 body{
 margin:0;
-height:100vh;
+background:#000;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#111;
-font-family:sans-serif;
+height:100vh;
 }
 
-/* ===== コンテナ ===== */
 .wrap{
 position:relative;
 width:100%;
 max-width:420px;
-z-index:2;
 }
 
-/* ===== 背景画像 ===== */
 .bg{
 width:100%;
 display:block;
-border-radius:18px;
 }
 
-/* ===== ボタン共通 ===== */
-.btn{
+/* 共通 */
+.area{
 position:absolute;
-left:50%;
-transform:translateX(-50%);
-padding:16px 22px;
-border-radius:14px;
-text-decoration:none;
-letter-spacing:2px;
-font-size:13px;
-transition:0.2s ease;
-backdrop-filter: blur(10px);
+display:block;
 }
 
-/* ===== ORDER ===== */
+/* ORDER（中央の黒ボタン） */
 .order{
-top:42%;
-background:rgba(0,0,0,0.85);
-color:#fff;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
+left:50%;
+top:41%;
+transform:translateX(-50%);
+width:72%;
+height:90px;
 }
 
-/* ===== INSTAGRAM ===== */
+/* INSTAGRAM（左） */
 .ig{
-top:62%;
-background:rgba(255,255,255,0.9);
-color:#111;
+left:18%;
+top:64%;
+width:28%;
+height:70px;
 }
 
-/* ===== REVIEWS ===== */
+/* REVIEWS（右） */
 .rev{
-top:75%;
-background:rgba(255,255,255,0.9);
-color:#111;
-}
-
-/* ===== 押した時ふわっと ===== */
-.btn:active{
-transform:translateX(-50%) scale(0.96);
-opacity:0.8;
+right:18%;
+top:64%;
+width:28%;
+height:70px;
 }
 
 </style>
@@ -82,21 +65,17 @@ opacity:0.8;
 
 <div class="wrap">
 
-  <!-- 画像 -->
   <img class="bg" src="flum.jpg" />
 
-  <!-- ボタン -->
-  <a class="btn order" id="orderBtn">ORDER →</a>
-
-  <a class="btn ig" href="https://www.instagram.com/flum0701">INSTAGRAM</a>
-
-  <a class="btn rev" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98">REVIEWS</a>
+  <!-- 透明クリックエリア -->
+  <a class="area order" id="orderBtn"></a>
+  <a class="area ig" href="https://www.instagram.com/flum0701"></a>
+  <a class="area rev" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98"></a>
 
 </div>
 
 <script>
 
-/* テーブル判別 */
 const params = new URLSearchParams(window.location.search);
 const table = params.get("t");
 
@@ -108,11 +87,10 @@ const urls = {
 "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
-document.getElementById("orderBtn").onclick = () => {
+document.getElementById("orderBtn").onclick = (e) => {
+  e.preventDefault();
   if(urls[table]){
     window.location.href = urls[table];
-  } else {
-    alert("テーブル情報がありません");
   }
 };
 
