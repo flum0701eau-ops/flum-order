@@ -14,37 +14,16 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#000;
+background:#111;
 font-family:sans-serif;
-overflow:hidden;
-}
-
-/* ===== 煙レイヤー ===== */
-.smoke-effect{
-position:fixed;
-inset:0;
-pointer-events:none;
-background:
-radial-gradient(circle at 30% 40%, rgba(255,255,255,0.12), transparent 60%),
-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.10), transparent 65%);
-filter: blur(40px);
-animation: smokeMove 12s ease-in-out infinite;
-z-index:0;
-opacity:0.6;
-}
-
-@keyframes smokeMove{
-0%{transform:translateY(0px) scale(1);}
-50%{transform:translateY(-20px) scale(1.05);}
-100%{transform:translateY(0px) scale(1);}
 }
 
 /* ===== コンテナ ===== */
 .wrap{
 position:relative;
-z-index:2;
 width:100%;
 max-width:420px;
+z-index:2;
 }
 
 /* ===== 背景画像 ===== */
@@ -52,8 +31,6 @@ max-width:420px;
 width:100%;
 display:block;
 border-radius:18px;
-position:relative;
-z-index:1;
 }
 
 /* ===== ボタン共通 ===== */
@@ -67,8 +44,7 @@ text-decoration:none;
 letter-spacing:2px;
 font-size:13px;
 transition:0.2s ease;
-backdrop-filter: blur(8px);
-z-index:3;
+backdrop-filter: blur(10px);
 }
 
 /* ===== ORDER ===== */
@@ -76,20 +52,20 @@ z-index:3;
 top:42%;
 background:rgba(0,0,0,0.85);
 color:#fff;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 /* ===== INSTAGRAM ===== */
 .ig{
 top:62%;
-background:rgba(255,255,255,0.85);
+background:rgba(255,255,255,0.9);
 color:#111;
 }
 
 /* ===== REVIEWS ===== */
 .rev{
 top:75%;
-background:rgba(255,255,255,0.85);
+background:rgba(255,255,255,0.9);
 color:#111;
 }
 
@@ -104,15 +80,12 @@ opacity:0.8;
 
 <body>
 
-<!-- 🌫煙 -->
-<div class="smoke-effect"></div>
-
 <div class="wrap">
 
-  <!-- 🖼背景画像 -->
+  <!-- 画像 -->
   <img class="bg" src="flum.jpg" />
 
-  <!-- 🔘ボタン -->
+  <!-- ボタン -->
   <a class="btn order" id="orderBtn">ORDER →</a>
 
   <a class="btn ig" href="https://www.instagram.com/flum0701">INSTAGRAM</a>
@@ -123,7 +96,7 @@ opacity:0.8;
 
 <script>
 
-/* ===== テーブル判別 ===== */
+/* テーブル判別 */
 const params = new URLSearchParams(window.location.search);
 const table = params.get("t");
 
@@ -135,7 +108,6 @@ const urls = {
 "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
-/* ===== ORDER動作 ===== */
 document.getElementById("orderBtn").onclick = () => {
   if(urls[table]){
     window.location.href = urls[table];
