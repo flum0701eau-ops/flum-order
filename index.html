@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 <title>FLÜM ORDER</title>
 
 <style>
@@ -12,6 +11,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family:-apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
 }
 
 body{
@@ -19,188 +19,119 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:sans-serif;
-
-background:
-linear-gradient(
-180deg,
-#ebe7df 0%,
-#d8d1c5 100%
-);
-
 overflow:hidden;
-position:relative;
+background:#000;
 }
 
-/* 背景ぼかし */
-
-body::before{
-content:"";
+/* 🌫️煙動画 */
+.bg-video{
 position:absolute;
-width:500px;
-height:500px;
-background:rgba(255,255,255,0.18);
-filter:blur(120px);
-top:-120px;
-right:-120px;
-border-radius:50%;
-}
-
-body::after{
-content:"";
-position:absolute;
-width:400px;
-height:400px;
-background:rgba(0,0,0,0.08);
-filter:blur(120px);
-bottom:-150px;
-left:-150px;
-border-radius:50%;
-}
-
-/* 花 */
-
-.flower{
-position:absolute;
-opacity:0.08;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
 z-index:1;
+opacity:0.18;
+filter:blur(1.5px) brightness(1.2);
+pointer-events:none;
 }
 
-.flower1{
-top:40px;
-left:20px;
-font-size:120px;
-transform:rotate(-12deg);
-}
-
-.flower2{
-bottom:30px;
-right:10px;
-font-size:100px;
-transform:rotate(18deg);
-}
-
-/* カード */
-
-.container{
-width:90%;
-max-width:390px;
-
-background:rgba(255,255,255,0.16);
-
-backdrop-filter:blur(18px);
-
-border:1px solid rgba(255,255,255,0.25);
-
-border-radius:30px;
-
-padding:26px;
-
-box-shadow:
-0 10px 40px rgba(0,0,0,0.12);
-
-position:relative;
+/* うっすら光 */
+.overlay{
+position:absolute;
+inset:0;
+background:radial-gradient(circle at center, rgba(255,255,255,0.08), rgba(0,0,0,0.5));
 z-index:2;
 }
 
-/* ロゴ */
-
-.hero{
+/* UIカード */
+.container{
+position:relative;
+z-index:3;
+width:90%;
+max-width:420px;
 text-align:center;
-padding:20px 0 34px;
+padding:50px 26px;
+border-radius:30px;
+
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(22px);
+
+border:1px solid rgba(255,255,255,0.12);
+
+box-shadow:0 30px 80px rgba(0,0,0,0.35);
 }
 
-.logoFlower{
-font-size:34px;
-margin-bottom:12px;
-opacity:0.8;
+/* タイトル */
+h1{
+font-size:42px;
+letter-spacing:10px;
+font-weight:300;
+color:#fff;
 }
 
-.hero h1{
-font-size:34px;
-letter-spacing:8px;
-font-weight:700;
-color:#111;
-}
-
-.hero p{
-margin-top:10px;
+.sub{
 font-size:12px;
 letter-spacing:4px;
-color:#555;
+color:rgba(255,255,255,0.6);
+margin-top:8px;
 }
 
-/* ボタン */
-
-.menu{
-display:flex;
-flex-direction:column;
-gap:16px;
-}
-
-.button{
-text-decoration:none;
-
-padding:18px;
-
-border-radius:18px;
-
-text-align:center;
-
-font-size:16px;
-font-weight:600;
+/* 説明 */
+.text{
+margin-top:40px;
+font-size:12px;
+color:rgba(255,255,255,0.6);
 letter-spacing:2px;
-
-transition:0.2s ease;
-
-cursor:pointer;
 }
 
 /* ORDER */
+.orderBtn{
+margin:20px auto 25px;
+display:block;
+width:88%;
+padding:18px;
+border-radius:16px;
 
-.mainBtn{
-background:
-linear-gradient(
-145deg,
-rgba(0,0,0,0.92),
-rgba(35,35,35,0.88)
-);
-
-color:white;
-
-box-shadow:
-0 8px 20px rgba(0,0,0,0.22);
-}
-
-.mainBtn:active{
-transform:scale(0.97);
-}
-
-/* サブ */
-
-.subBtn{
-background:
-rgba(255,255,255,0.28);
-
-backdrop-filter:blur(10px);
-
-border:1px solid rgba(255,255,255,0.24);
-
+background:rgba(255,255,255,0.9);
 color:#111;
+
+font-size:16px;
+letter-spacing:3px;
+text-decoration:none;
+
+box-shadow:0 15px 35px rgba(0,0,0,0.4);
+transition:0.2s;
 }
 
-.subBtn:active{
+.orderBtn:active{
 transform:scale(0.97);
 }
 
-/* 下 */
+/* 下ボタン */
+.row{
+display:flex;
+gap:12px;
+}
 
-.footer{
-margin-top:24px;
-text-align:center;
+.smallBtn{
+flex:1;
+padding:14px 0;
+border-radius:14px;
+background:rgba(255,255,255,0.1);
+border:1px solid rgba(255,255,255,0.15);
+text-decoration:none;
 font-size:11px;
 letter-spacing:2px;
-color:#666;
+color:#fff;
+}
+
+.footer{
+margin-top:28px;
+font-size:10px;
+letter-spacing:2px;
+color:rgba(255,255,255,0.4);
 }
 
 </style>
@@ -208,44 +139,28 @@ color:#666;
 
 <body>
 
-<div class="flower flower1">
-✿
-</div>
+<!-- 🌫️煙動画 -->
+<video class="bg-video" autoplay muted loop playsinline>
+  <source src="smoke.mp4" type="video/mp4">
+</video>
 
-<div class="flower flower2">
-✿
-</div>
+<div class="overlay"></div>
 
 <div class="container">
 
-<div class="hero">
-
-<div class="logoFlower">
-✿
-</div>
-
 <h1>FLÜM</h1>
+<div class="sub">SHISHA CAFE & BAR</div>
 
-<p>SHISHA CAFE & BAR</p>
+<div class="text">ご注文はこちらから</div>
 
-</div>
+<a class="orderBtn" id="orderBtn">ORDER</a>
 
-<div class="menu">
+<div class="row">
+<a class="smallBtn" href="https://www.instagram.com/flum0701">INSTAGRAM</a>
 
-<a class="button mainBtn" id="orderBtn">
-ORDER
+<a class="smallBtn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98">
+REVIEW
 </a>
-
-<a class="button subBtn"
-href="https://www.instagram.com/flum0701">
-INSTAGRAM
-</a>
-
-<a class="button subBtn"
-href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98&source=g.page.m.ia._&laa=nmx-review-solicitation-ia2">
-REVIEWS
-</a>
-
 </div>
 
 <div class="footer">
@@ -255,32 +170,22 @@ OSAKA MINAMI
 </div>
 
 <script>
-
 const params = new URLSearchParams(window.location.search);
 const table = params.get("t");
 
 const urls = {
-
 "1":"https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
-
 "2":"https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
-
 "3":"https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
-
 "4":"https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
-
 "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
-
 };
 
 document.getElementById("orderBtn").onclick = () => {
-
 if(urls[table]){
 window.location.href = urls[table];
 }
-
 };
-
 </script>
 
 </body>
