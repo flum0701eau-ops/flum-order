@@ -7,69 +7,108 @@
 
 <style>
 
-/* ===== ベース ===== */
 body{
 margin:0;
 background:#000;
 display:flex;
 justify-content:center;
-align-items:center;
-height:100vh;
+font-family:sans-serif;
 }
 
-/* ===== コンテナ ===== */
+/* コンテナ */
 .wrap{
 position:relative;
 width:100%;
 max-width:420px;
-font-size:0;
 }
 
-/* ===== 画像 ===== */
+/* 背景画像 */
 .bg{
 width:100%;
 display:block;
 }
 
-/* ===== クリックエリア共通 ===== */
-.area{
+/* UI全体 */
+.ui{
 position:absolute;
-}
-
-/* =========================
-   ORDER（位置修正済み）
-========================= */
-.order{
+top:38%;
 left:50%;
 transform:translateX(-50%);
-top:34%; /* ←ここ下げて調整済み */
-width:80%;
-height:20%;
+width:85%;
+text-align:center;
 }
 
-/* =========================
-   INSTAGRAM
-========================= */
-.ig{
-left:8%;
-top:62%;
-width:38%;
-height:18%;
+/* 小テキスト */
+.sub{
+font-size:12px;
+color:#444;
+margin-bottom:12px;
 }
 
-/* =========================
-   REVIEWS
-========================= */
-.rev{
-right:8%;
-top:62%;
-width:38%;
-height:18%;
+/* ===== ORDER（主役ガラス） ===== */
+.order{
+display:block;
+width:100%;
+padding:18px 0;
+border-radius:18px;
+
+background:rgba(255,255,255,0.10);
+backdrop-filter: blur(14px);
+-webkit-backdrop-filter: blur(14px);
+
+border:1px solid rgba(255,255,255,0.25);
+
+box-shadow:
+0 20px 40px rgba(0,0,0,0.35),
+inset 0 1px 0 rgba(255,255,255,0.15);
+
+color:#fff;
+text-decoration:none;
+letter-spacing:3px;
+font-size:14px;
+
+margin-bottom:34px;
+
+transition:0.2s;
 }
 
-/* 押した時 */
-.area:active{
-opacity:0.6;
+.order:active{
+transform:scale(0.97);
+opacity:0.85;
+}
+
+/* 下ボタン */
+.bottom{
+display:flex;
+gap:12px;
+}
+
+.btn{
+flex:1;
+padding:14px 0;
+border-radius:14px;
+
+background:rgba(255,255,255,0.08);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+
+border:1px solid rgba(255,255,255,0.18);
+
+color:#ddd;
+text-decoration:none;
+font-size:12px;
+}
+
+.btn:active{
+transform:scale(0.97);
+opacity:0.8;
+}
+
+/* 余白 */
+.thanks{
+margin-top:40px;
+font-size:11px;
+color:#666;
 }
 
 </style>
@@ -79,40 +118,31 @@ opacity:0.6;
 
 <div class="wrap">
 
-  <!-- 画像 -->
-  <img class="bg" src="flum.jpg" />
+  <!-- 背景 -->
+  <img class="bg" src="flum.jpg">
 
-  <!-- 透明クリックエリア -->
-  <a class="area order" id="orderBtn"></a>
-  <a class="area ig" href="https://www.instagram.com/flum0701"></a>
-  <a class="area rev" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98"></a>
+  <!-- UI -->
+  <div class="ui">
+
+    <div class="sub">ご注文はこちらから</div>
+
+    <a class="order" href="https://spo.order.airregi.jp/auth/seat?t=XXXX">
+      ORDER
+    </a>
+
+    <div class="bottom">
+      <a class="btn" href="https://www.instagram.com/flum0701">INSTAGRAM</a>
+      <a class="btn" href="https://search.google.com/local/writereview?placeid=XXXX">REVIEWS</a>
+    </div>
+
+    <div class="thanks">
+      THANK YOU<br>
+      ご利用ありがとうございます
+    </div>
+
+  </div>
 
 </div>
-
-<script>
-
-/* ===== テーブル判別 ===== */
-const params = new URLSearchParams(window.location.search);
-const table = params.get("t");
-
-const urls = {
-"1":"https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
-"2":"https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
-"3":"https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
-"4":"https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
-"5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
-};
-
-/* ===== ORDER動作（alert削除済み） ===== */
-document.getElementById("orderBtn").onclick = (e) => {
-  e.preventDefault();
-
-  if(urls[table]){
-    window.location.href = urls[table];
-  }
-};
-
-</script>
 
 </body>
 </html>
