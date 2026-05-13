@@ -129,9 +129,37 @@ transform:scale(0.97);
 <script>
 
 /* ===== テーブル判別 ===== */
-const params = new URLSearchParams(window.location.search);
-const table = params.get("t");
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
+<script>
+const liffId = "2007912475-TlwIvzlF";
+
+/* ===== テーブル判別（強化版） ===== */
+let table = null;
+
+/* ① URLから取得 */
+const params = new URLSearchParams(window.location.search);
+table = params.get("t");
+
+/* ② LIFF起動 */
+liff.init({ liffId }).then(() => {
+
+  const url = new URL(window.location.href);
+  const liffParams = new URLSearchParams(url.search);
+
+  if (!table) {
+    table = liffParams.get("t");
+  }
+
+  if (!table) {
+    alert("テーブルが認識できません（QRを確認）");
+    return;
+  }
+
+  console.log("TABLE =", table);
+
+});
+</script>
 /* ===== AirレジURL ===== */
 const urls = {
   "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
