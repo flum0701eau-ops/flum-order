@@ -30,7 +30,7 @@ display:block;
 }
 
 /* =========================
-   UI（完全安定版）
+   UI（最終安定版）
 ========================= */
 .ui{
 position:absolute;
@@ -39,11 +39,13 @@ left:0;
 width:100%;
 height:100%;
 
-/* ▼ここがプロ仕様ポイント */
-padding:22vh 7% 8vh;
-box-sizing:border-box;
+/* ★ここが重要（位置調整） */
+padding:28vh 7% 10vh;
 
+box-sizing:border-box;
 text-align:center;
+
+/* スクロール安定 */
 overflow-y:auto;
 -webkit-overflow-scrolling:touch;
 }
@@ -84,7 +86,7 @@ font-weight:700;
 margin-bottom:14px;
 }
 
-/* 説明文（視認性強化） */
+/* 説明文 */
 .coupon-text{
 font-size:12px;
 color:#1f1f1f;
@@ -156,7 +158,7 @@ LINEにて限定割引クーポン配信中🌸<br>
 <script>
 
 /* =========================
-   卓判別（強化版）
+   卓判別
 ========================= */
 const params = new URLSearchParams(window.location.search);
 let table = params.get("t");
@@ -173,7 +175,7 @@ if (!table || !validTables.includes(table)) {
     "QRに ?t=1〜5 が入っているか確認してください"
   );
 
-  table = null; // 安全停止
+  table = null;
 }
 
 /* =========================
@@ -188,18 +190,17 @@ const urls = {
 };
 
 /* =========================
-   ORDER処理
+   ORDER
 ========================= */
 document.getElementById("orderBtn").addEventListener("click", function(e){
   e.preventDefault();
 
   if (!table) {
-    alert("テーブルが未設定です（QRを読み直してください）");
+    alert("テーブル未設定（QRを読み直してください）");
     return;
   }
 
   window.location.href = urls[table];
-
 });
 
 </script>
