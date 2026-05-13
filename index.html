@@ -15,37 +15,37 @@ justify-content:center;
 font-family:sans-serif;
 }
 
-/* 全体 */
+/* ===== 全体 ===== */
 .wrap{
 position:relative;
 width:100%;
 max-width:420px;
 }
 
-/* 背景 */
+/* ===== 背景 ===== */
 .bg{
 width:100%;
 display:block;
 }
 
-/* UIレイヤー */
+/* ===== UI（位置調整） ===== */
 .ui{
 position:absolute;
 top:50%;
 left:50%;
-transform:translate(-50%,-45%);
+transform:translate(-50%,-38%);
 width:86%;
 text-align:center;
 }
 
-/* テキスト */
+/* ===== テキスト ===== */
 .sub{
 font-size:13px;
 color:#333;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
-/* ORDER */
+/* ===== ORDER ===== */
 .order{
 display:block;
 width:100%;
@@ -58,11 +58,17 @@ text-decoration:none;
 letter-spacing:3px;
 font-weight:500;
 
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
-margin-bottom:20px;
+box-shadow:0 12px 30px rgba(0,0,0,0.3);
+margin-bottom:22px;
+
+transition:0.15s ease;
 }
 
-/* 下ボタン */
+.order:active{
+transform:scale(0.98);
+}
+
+/* ===== 下ボタン ===== */
 .bottom{
 display:flex;
 gap:12px;
@@ -73,7 +79,7 @@ flex:1;
 padding:14px 0;
 border-radius:12px;
 
-background:rgba(245,236,220,0.85);
+background:rgba(245,236,220,0.9);
 border:1px solid #C8A96A;
 
 color:#111;
@@ -81,12 +87,15 @@ text-decoration:none;
 font-size:12px;
 letter-spacing:1px;
 
-backdrop-filter: blur(8px);
--webkit-backdrop-filter: blur(8px);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+
+transition:0.15s ease;
 }
 
-.order:active{ transform:scale(0.98); }
-.btn:active{ transform:scale(0.97); }
+.btn:active{
+transform:scale(0.97);
+}
 
 </style>
 </head>
@@ -95,22 +104,22 @@ backdrop-filter: blur(8px);
 
 <div class="wrap">
 
-<!-- 背景 -->
 <img class="bg" src="flum.jpg">
 
-<!-- UI -->
 <div class="ui">
 
-<!-- テキスト -->
 <div class="sub">ご注文はこちらから</div>
 
-<!-- ORDER -->
 <a class="order" id="orderBtn">ORDER</a>
 
-<!-- 下ボタン -->
 <div class="bottom">
   <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
-  <a class="btn" href="#">REVIEWS</a>
+
+  <!-- ✅ REVIEWS修正済み -->
+  <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98&source=g.page.m.ia._&laa=nmx-review-solicitation-ia2" target="_blank">
+    REVIEWS
+  </a>
+
 </div>
 
 </div>
@@ -118,11 +127,11 @@ backdrop-filter: blur(8px);
 
 <script>
 
-/* テーブル判別 */
+/* ===== テーブル判別 ===== */
 const params = new URLSearchParams(window.location.search);
 const table = params.get("t");
 
-/* AirレジURL */
+/* ===== AirレジURL ===== */
 const urls = {
   "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
   "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
@@ -131,7 +140,7 @@ const urls = {
   "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
-/* ORDER動作 */
+/* ===== ORDER動作 ===== */
 document.getElementById("orderBtn").addEventListener("click", function(e){
   e.preventDefault();
 
