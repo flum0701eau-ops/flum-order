@@ -10,68 +10,31 @@ body{
 margin:0;
 background:#000;
 font-family:sans-serif;
-}
-
-.wrap{
-position:relative;
-width:100%;
-max-width:420px;
-margin:0 auto;
-}
-
-/* 背景 */
-.bg{
-width:100%;
-height:100vh;
-object-fit:cover;
-display:block;
-}
-
-/* UI */
-.ui{
-position:absolute;
-top:65%;
-left:50%;
-transform:translate(-50%,-50%);
-width:86%;
+color:#fff;
 text-align:center;
-}
-
-/* テキスト */
-.sub{
-font-size:13px;
-color:#333;
-margin-bottom:16px;
-}
-
-/* ボタン */
-.order{
-display:block;
-width:100%;
-padding:18px 0;
-border-radius:16px;
-background:#111;
-color:#C8A96A;
-text-decoration:none;
-letter-spacing:3px;
-font-weight:500;
-margin-bottom:18px;
-}
-
-.bottom{
-display:flex;
-gap:12px;
+padding:40px 20px;
 }
 
 .btn{
-flex:1;
-padding:14px 0;
+display:block;
+width:100%;
+padding:16px;
+margin:12px 0;
 border-radius:12px;
-background:rgba(245,236,220,0.9);
-border:1px solid #C8A96A;
-color:#111;
 text-decoration:none;
-font-size:12px;
+font-weight:600;
+}
+
+.order{
+background:#111;
+color:#C8A96A;
+border:1px solid #C8A96A;
+}
+
+.sub{
+color:#aaa;
+font-size:13px;
+margin-bottom:20px;
 }
 
 .hidden{display:none;}
@@ -80,38 +43,12 @@ font-size:12px;
 
 <body>
 
-<div class="wrap">
+<div class="sub">FLÜM ORDER SYSTEM</div>
 
-<img class="bg" src="flum.jpg">
+<!-- 状態表示（必要なら） -->
+<div id="status">読み込み中...</div>
 
-<div class="ui">
-
-<div class="sub">ご注文はこちらから</div>
-
-<!-- 未ログイン（LINE追加誘導） -->
-<div id="before">
-  <a class="order" href="https://lin.ee/s4wHdT9">
-    LINE友だち追加して注文
-  </a>
-</div>
-
-<!-- ログイン後 -->
-<div id="after" class="hidden">
-
-  <a class="order" id="orderBtn">ORDER</a>
-
-  <div class="bottom">
-    <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
-
-    <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98" target="_blank">
-      REVIEWS
-    </a>
-  </div>
-
-</div>
-
-</div>
-</div>
+<a class="btn order hidden" id="orderBtn">ORDER</a>
 
 <!-- LINE SDK -->
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -120,42 +57,50 @@ font-size:12px;
 
 const liffId = "2007912475-TlwIvzlF";
 
-/* ===== 席判別 ===== */
-const params = new URLSearchParams(window.location.search);
-let table = params.get("t");
+/* =========================
+   ① 席保存（QR）
+========================= */
+const params = new URLSearchParams(location.search);
+const table = params.get("t");
 
-/* ===== Airレジ ===== */
-const urls = {
-  "1":"https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
-  "2":"https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
-  "3":"https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
-  "4":"https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
-  "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
-};
+if (table) {
+  sessionStorage.setItem("table", table);
+}
 
-const before = document.getElementById("before");
-const after = document.getElementById("after");
-
-/* ===== LIFF ===== */
+/* =========================
+   ② LIFF初期化
+========================= */
 liff.init({ liffId }).then(() => {
 
-  if (liff.isLoggedIn()) {
-    before.classList.add("hidden");
-    after.classList.remove("hidden");
-  } else {
-    before.classList.remove("hidden");
-    after.classList.add("hidden");
-  }
+  document.getElementById("status").innerText = "準備OK";
+
+  // UI表示（リッチメニューから来た人用）
+  document.getElementById("orderBtn").classList.remove("hidden");
 
 });
 
-/* ===== ORDER ===== */
+/* =========================
+   ③ Airレジ分岐
+========================= */
+const urls = {
+  "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
+  "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
+  "3": "https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
+  "4": "https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
+  "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
+};
+
+/* =========================
+   ④ ORDERボタン
+========================= */
 document.getElementById("orderBtn").addEventListener("click", () => {
+
+  const table = sessionStorage.getItem("table");
 
   if (urls[table]) {
     window.location.href = urls[table];
   } else {
-    alert("テーブルが認識できません");
+    alert("テーブル情報がありません（QRから入ってください）");
   }
 
 });
