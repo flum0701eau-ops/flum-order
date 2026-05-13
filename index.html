@@ -13,11 +13,12 @@ background:#000;
 font-family:sans-serif;
 }
 
+/* コンテナ */
 .wrap{
-position:relative;
 width:100%;
 max-width:420px;
 margin:0 auto;
+position:relative;
 }
 
 /* 背景 */
@@ -28,17 +29,23 @@ object-fit:cover;
 display:block;
 }
 
-/* UI */
+/* ★変更ポイント：固定やめる（重要） */
 .ui{
 position:absolute;
-top:65%;
-left:50%;
-transform:translate(-50%,-50%);
-width:86%;
+top:0;
+left:0;
+width:100%;
+height:100%;
+padding:18vh 7% 5vh;
+box-sizing:border-box;
 text-align:center;
+
+/* ★ここ追加：崩れ防止 */
+overflow-y:auto;
+-webkit-overflow-scrolling:touch;
 }
 
-/* テキスト */
+/* タイトル */
 .sub{
 font-size:13px;
 color:#333;
@@ -60,7 +67,7 @@ box-shadow:0 12px 30px rgba(0,0,0,0.3);
 margin-bottom:16px;
 }
 
-/* LINEボタン */
+/* LINE */
 .line{
 display:block;
 width:100%;
@@ -73,7 +80,7 @@ font-weight:600;
 margin-bottom:14px;
 }
 
-/* 説明文（プロ版：見やすく改善） */
+/* 説明文 */
 .coupon-text{
 font-size:12px;
 color:#222;
@@ -88,6 +95,7 @@ opacity:0.9;
 .bottom{
 display:flex;
 gap:12px;
+margin-bottom:40px;
 }
 
 .btn{
@@ -100,8 +108,6 @@ color:#111;
 text-decoration:none;
 font-size:12px;
 letter-spacing:1px;
-backdrop-filter: blur(10px);
--webkit-backdrop-filter: blur(10px);
 }
 
 .order:active{transform:scale(0.98);}
@@ -134,7 +140,6 @@ LINEにて限定割引クーポン配信中🌸<br>
 
 <div class="bottom">
   <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
-
   <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98" target="_blank">
     REVIEWS
   </a>
@@ -146,7 +151,7 @@ LINEにて限定割引クーポン配信中🌸<br>
 <script>
 
 /* =========================
-   卓判別（強化版）
+   卓判別
 ========================= */
 const params = new URLSearchParams(window.location.search);
 let table = params.get("t");
@@ -157,12 +162,12 @@ if (!table || !["1","2","3","4","5"].includes(table)) {
 
   alert(
     "テーブルが認識できません\n\n" +
-    "原因：QRのURLに ?t=1〜5 が入っていません"
+    "QRに ?t=1〜5 が入っているか確認してください"
   );
 }
 
 /* =========================
-   AirレジURL
+   Airレジ
 ========================= */
 const urls = {
   "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
@@ -173,7 +178,7 @@ const urls = {
 };
 
 /* =========================
-   ORDER処理
+   ORDER
 ========================= */
 document.getElementById("orderBtn").addEventListener("click", function(e){
   e.preventDefault();
@@ -181,10 +186,7 @@ document.getElementById("orderBtn").addEventListener("click", function(e){
   if (table && urls[table]) {
     window.location.href = urls[table];
   } else {
-    alert(
-      "テーブル未設定\n\n" +
-      "もう一度QRを読み込んでください"
-    );
+    alert("テーブル未設定（QRを読み直してください）");
   }
 
 });
