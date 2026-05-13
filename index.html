@@ -6,7 +6,6 @@
 <title>FLÜM ORDER</title>
 
 <style>
-
 body{
 margin:0;
 background:#000;
@@ -45,7 +44,7 @@ color:#333;
 margin-bottom:16px;
 }
 
-/* ORDER */
+/* ボタン */
 .order{
 display:block;
 width:100%;
@@ -56,11 +55,9 @@ color:#C8A96A;
 text-decoration:none;
 letter-spacing:3px;
 font-weight:500;
-box-shadow:0 12px 30px rgba(0,0,0,0.3);
-margin-bottom:22px;
+margin-bottom:18px;
 }
 
-/* 下ボタン */
 .bottom{
 display:flex;
 gap:12px;
@@ -75,14 +72,9 @@ border:1px solid #C8A96A;
 color:#111;
 text-decoration:none;
 font-size:12px;
-letter-spacing:1px;
-backdrop-filter: blur(10px);
--webkit-backdrop-filter: blur(10px);
 }
 
-.order:active{transform:scale(0.98);}
-.btn:active{transform:scale(0.97);}
-
+.hidden{display:none;}
 </style>
 </head>
 
@@ -96,75 +88,76 @@ backdrop-filter: blur(10px);
 
 <div class="sub">ご注文はこちらから</div>
 
-<a class="order" id="orderBtn">ORDER</a>
-
-<div class="bottom">
-  <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
-
-  <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98&source=g.page.m.ia._&laa=nmx-review-solicitation-ia2" target="_blank">
-    REVIEWS
+<!-- 未ログイン（LINE追加誘導） -->
+<div id="before">
+  <a class="order" href="https://lin.ee/s4wHdT9">
+    LINE友だち追加して注文
   </a>
 </div>
 
+<!-- ログイン後 -->
+<div id="after" class="hidden">
+
+  <a class="order" id="orderBtn">ORDER</a>
+
+  <div class="bottom">
+    <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
+
+    <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98" target="_blank">
+      REVIEWS
+    </a>
+  </div>
+
+</div>
+
 </div>
 </div>
 
-<!-- ===== LIFF SDK ===== -->
+<!-- LINE SDK -->
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
 
-/* =========================
-   テーブル判別 + LIFF対応
-========================= */
-
 const liffId = "2007912475-TlwIvzlF";
 
-let table = null;
-
-/* ① URLから取得（QR用） */
+/* ===== 席判別 ===== */
 const params = new URLSearchParams(window.location.search);
-table = params.get("t");
+let table = params.get("t");
 
-/* ② LIFF初期化 */
+/* ===== Airレジ ===== */
+const urls = {
+  "1":"https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
+  "2":"https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
+  "3":"https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
+  "4":"https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
+  "5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
+};
+
+const before = document.getElementById("before");
+const after = document.getElementById("after");
+
+/* ===== LIFF ===== */
 liff.init({ liffId }).then(() => {
 
-  const url = new URL(window.location.href);
-  const liffParams = new URLSearchParams(url.search);
-
-  // LINE側で失われた場合の補完
-  if (!table) {
-    table = liffParams.get("t");
-  }
-
-  console.log("TABLE =", table);
-
-  if (!table) {
-    alert("テーブルが認識できません（QRを確認）");
+  if (liff.isLoggedIn()) {
+    before.classList.add("hidden");
+    after.classList.remove("hidden");
+  } else {
+    before.classList.remove("hidden");
+    after.classList.add("hidden");
   }
 
 });
 
-/* =========================
-   ORDERボタン動作
-========================= */
-
-const urls = {
-  "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
-  "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
-  "3": "https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
-  "4": "https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
-  "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
-};
-
-document.getElementById("orderBtn").addEventListener("click", function(e){
-  e.preventDefault();
+/* ===== ORDER ===== */
+document.getElementById("orderBtn").addEventListener("click", () => {
 
   if (urls[table]) {
     window.location.href = urls[table];
   } else {
-    alert("テーブルが認識できません（QRを確認）");
+    alert("テーブルが認識できません");
   }
+
 });
 
 </script>
