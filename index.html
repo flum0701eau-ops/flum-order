@@ -1,122 +1,19 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLÜM ORDER</title>
-
-<style>
-body{
-margin:0;
-background:#000;
-font-family:sans-serif;
-color:#fff;
-text-align:center;
-padding:40px 20px;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:16px;
-margin:12px 0;
-border-radius:12px;
-text-decoration:none;
-font-weight:600;
-}
-
-.add{
-background:#00C300;
-color:#fff;
-}
-
-.order{
-background:#111;
-color:#C8A96A;
-border:1px solid #C8A96A;
-}
-
-.hidden{display:none;}
-
-.sub{
-font-size:13px;
-color:#aaa;
-margin-bottom:20px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="sub">FLÜM ORDER SYSTEM</div>
-
-<!-- 友だち追加前 -->
-<div id="before">
-  <a class="btn add" id="addBtn" href="https://lin.ee/s4wHdT9">
-    友だち追加して注文へ
-  </a>
-</div>
-
-<!-- 友だち追加後 -->
-<div id="after" class="hidden">
-
-  <a class="btn order" id="orderBtn">ORDER</a>
-
-</div>
-
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
 
 const liffId = "2007912475-TlwIvzlF";
 
-/* =========================
-   ① 席保存（QR）
-========================= */
-const params = new URLSearchParams(location.search);
-const table = params.get("t");
+/* 席保存 */
+const table = new URLSearchParams(location.search).get("t");
+if (table) sessionStorage.setItem("table", table);
 
-if (table) {
-  sessionStorage.setItem("table", table);
-}
-
-/* =========================
-   ② LIFF初期化
-========================= */
+/* LIFF初期化 */
 liff.init({ liffId }).then(() => {
-
-  // 友だち（ログイン）判定
-  if (liff.isLoggedIn()) {
-    document.getElementById("before").classList.add("hidden");
-    document.getElementById("after").classList.remove("hidden");
+  // LINE内で開かれてる時だけ閉じる
+  if (liff.isInClient()) {
+    liff.closeWindow();
   }
-
-});
-
-/* =========================
-   ③ ORDER → Airレジ
-========================= */
-const urls = {
-  "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
-  "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
-  "3": "https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
-  "4": "https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
-  "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
-};
-
-document.getElementById("orderBtn").addEventListener("click", () => {
-
-  const table = sessionStorage.getItem("table");
-
-  if (urls[table]) {
-    window.location.href = urls[table];
-  } else {
-    alert("席情報がありません（QRから入ってください）");
-  }
-
 });
 
 </script>
-
-</body>
-</html>
