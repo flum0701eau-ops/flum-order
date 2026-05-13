@@ -16,46 +16,59 @@ align-items:center;
 height:100vh;
 }
 
+/* コンテナ */
 .wrap{
 position:relative;
 width:100%;
 max-width:420px;
+font-size:0;
 }
 
+/* 画像 */
 .bg{
 width:100%;
 display:block;
 }
 
-/* 共通 */
+/* クリック共通 */
 .area{
 position:absolute;
-display:block;
 }
 
-/* ORDER（中央の黒ボタン） */
+/* =========================
+   ORDER（中央ボタン部分）
+========================= */
 .order{
 left:50%;
-top:41%;
 transform:translateX(-50%);
-width:72%;
-height:90px;
+top:36%;
+width:80%;
+height:20%;
 }
 
-/* INSTAGRAM（左） */
+/* =========================
+   INSTAGRAM（左下）
+========================= */
 .ig{
-left:18%;
-top:64%;
-width:28%;
-height:70px;
+left:8%;
+top:62%;
+width:38%;
+height:18%;
 }
 
-/* REVIEWS（右） */
+/* =========================
+   REVIEWS（右下）
+========================= */
 .rev{
-right:18%;
-top:64%;
-width:28%;
-height:70px;
+right:8%;
+top:62%;
+width:38%;
+height:18%;
+}
+
+/* 押した時 */
+.area:active{
+opacity:0.6;
 }
 
 </style>
@@ -65,6 +78,7 @@ height:70px;
 
 <div class="wrap">
 
+  <!-- 画像 -->
   <img class="bg" src="flum.jpg" />
 
   <!-- 透明クリックエリア -->
@@ -91,6 +105,8 @@ document.getElementById("orderBtn").onclick = (e) => {
   e.preventDefault();
   if(urls[table]){
     window.location.href = urls[table];
+  } else {
+    alert("テーブルなし");
   }
 };
 
