@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -12,7 +13,6 @@ background:#000;
 font-family:sans-serif;
 }
 
-/* ===== 全体 ===== */
 .wrap{
 position:relative;
 width:100%;
@@ -20,55 +20,47 @@ max-width:420px;
 margin:0 auto;
 }
 
-/* ===== 背景（高さ固定じゃなくする） ===== */
+/* 背景 */
 .bg{
 width:100%;
-height:100vh;          /* ←これ重要：画面基準にする */
-object-fit:cover;      /* 画像崩れ防止 */
+height:100vh;
+object-fit:cover;
 display:block;
 }
 
-/* ===== UI（固定で安定） ===== */
+/* UI */
 .ui{
 position:absolute;
-top:65%;               /* ←ここで“店UI位置”固定 */
+top:65%;
 left:50%;
 transform:translate(-50%,-50%);
 width:86%;
 text-align:center;
 }
 
-/* ===== テキスト ===== */
+/* テキスト */
 .sub{
 font-size:13px;
 color:#333;
 margin-bottom:16px;
 }
 
-/* ===== ORDER ===== */
+/* ORDER */
 .order{
 display:block;
 width:100%;
 padding:18px 0;
 border-radius:16px;
-
 background:#111;
 color:#C8A96A;
 text-decoration:none;
 letter-spacing:3px;
 font-weight:500;
-
 box-shadow:0 12px 30px rgba(0,0,0,0.3);
 margin-bottom:22px;
-
-transition:0.15s ease;
 }
 
-.order:active{
-transform:scale(0.98);
-}
-
-/* ===== 下ボタン ===== */
+/* 下ボタン */
 .bottom{
 display:flex;
 gap:12px;
@@ -78,24 +70,18 @@ gap:12px;
 flex:1;
 padding:14px 0;
 border-radius:12px;
-
 background:rgba(245,236,220,0.9);
 border:1px solid #C8A96A;
-
 color:#111;
 text-decoration:none;
 font-size:12px;
 letter-spacing:1px;
-
 backdrop-filter: blur(10px);
 -webkit-backdrop-filter: blur(10px);
-
-transition:0.15s ease;
 }
 
-.btn:active{
-transform:scale(0.97);
-}
+.order:active{transform:scale(0.98);}
+.btn:active{transform:scale(0.97);}
 
 </style>
 </head>
@@ -104,10 +90,8 @@ transform:scale(0.97);
 
 <div class="wrap">
 
-<!-- 背景 -->
 <img class="bg" src="flum.jpg">
 
-<!-- UI -->
 <div class="ui">
 
 <div class="sub">ご注文はこちらから</div>
@@ -120,47 +104,51 @@ transform:scale(0.97);
   <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98&source=g.page.m.ia._&laa=nmx-review-solicitation-ia2" target="_blank">
     REVIEWS
   </a>
-
 </div>
 
 </div>
 </div>
 
-<script>
-
-/* ===== テーブル判別 ===== */
+<!-- ===== LIFF SDK ===== -->
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
+
+/* =========================
+   テーブル判別 + LIFF対応
+========================= */
+
 const liffId = "2007912475-TlwIvzlF";
 
-/* ===== テーブル判別（強化版） ===== */
 let table = null;
 
-/* ① URLから取得 */
+/* ① URLから取得（QR用） */
 const params = new URLSearchParams(window.location.search);
 table = params.get("t");
 
-/* ② LIFF起動 */
+/* ② LIFF初期化 */
 liff.init({ liffId }).then(() => {
 
   const url = new URL(window.location.href);
   const liffParams = new URLSearchParams(url.search);
 
+  // LINE側で失われた場合の補完
   if (!table) {
     table = liffParams.get("t");
   }
 
-  if (!table) {
-    alert("テーブルが認識できません（QRを確認）");
-    return;
-  }
-
   console.log("TABLE =", table);
 
+  if (!table) {
+    alert("テーブルが認識できません（QRを確認）");
+  }
+
 });
-</script>
-/* ===== AirレジURL ===== */
+
+/* =========================
+   ORDERボタン動作
+========================= */
+
 const urls = {
   "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
   "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
@@ -169,13 +157,12 @@ const urls = {
   "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
-/* ===== ORDER動作 ===== */
 document.getElementById("orderBtn").addEventListener("click", function(e){
   e.preventDefault();
 
-  if(urls[table]){
+  if (urls[table]) {
     window.location.href = urls[table];
-  }else{
+  } else {
     alert("テーブルが認識できません（QRを確認）");
   }
 });
