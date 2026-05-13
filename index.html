@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FLÜM</title>
+<title>FLÜM ORDER</title>
 
 <style>
 
@@ -15,28 +15,30 @@ justify-content:center;
 font-family:sans-serif;
 }
 
+/* 全体 */
 .wrap{
 position:relative;
 width:100%;
 max-width:420px;
 }
 
+/* 背景 */
 .bg{
 width:100%;
 display:block;
 }
 
-/* UI */
+/* UIレイヤー（1個だけ） */
 .ui{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-45%);
-width:85%;
+width:86%;
 text-align:center;
 }
 
-/* ロゴ（1個だけ） */
+/* ロゴ */
 .logo{
 width:140px;
 margin:0 auto 12px auto;
@@ -56,13 +58,18 @@ display:block;
 width:100%;
 padding:18px 0;
 border-radius:16px;
+
 background:#111;
 color:#C8A96A;
 text-decoration:none;
+letter-spacing:3px;
+font-weight:500;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
 margin-bottom:20px;
 }
 
-/* 下 */
+/* 下ボタン */
 .bottom{
 display:flex;
 gap:12px;
@@ -72,11 +79,21 @@ gap:12px;
 flex:1;
 padding:14px 0;
 border-radius:12px;
+
 background:rgba(245,236,220,0.85);
 border:1px solid #C8A96A;
-text-decoration:none;
+
 color:#111;
+text-decoration:none;
+font-size:12px;
+letter-spacing:1px;
+
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
 }
+
+.order:active{ transform:scale(0.98); }
+.btn:active{ transform:scale(0.97); }
 
 </style>
 </head>
@@ -85,24 +102,57 @@ color:#111;
 
 <div class="wrap">
 
+<!-- 背景 -->
 <img class="bg" src="flum.jpg">
 
+<!-- UI（これ1個だけ） -->
 <div class="ui">
 
+<!-- ロゴ -->
 <img class="logo" src="logo.png">
 
+<!-- テキスト -->
 <div class="sub">ご注文はこちらから</div>
 
+<!-- ORDER -->
 <a class="order" id="orderBtn">ORDER</a>
 
+<!-- 下ボタン -->
 <div class="bottom">
-<a class="btn">INSTAGRAM</a>
-<a class="btn">REVIEWS</a>
+  <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
+  <a class="btn" href="#">REVIEWS</a>
 </div>
 
 </div>
-
 </div>
+
+<script>
+
+/* ===== テーブル判別 ===== */
+const params = new URLSearchParams(window.location.search);
+const table = params.get("t");
+
+/* ===== AirレジURL ===== */
+const urls = {
+  "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
+  "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
+  "3": "https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
+  "4": "https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
+  "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
+};
+
+/* ===== ORDER動作 ===== */
+document.getElementById("orderBtn").addEventListener("click", function(e){
+  e.preventDefault();
+
+  if(urls[table]){
+    window.location.href = urls[table];
+  }else{
+    alert("テーブルが認識できません（QRを確認）");
+  }
+});
+
+</script>
 
 </body>
 </html>
