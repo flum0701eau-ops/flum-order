@@ -29,18 +29,21 @@ object-fit:cover;
 display:block;
 }
 
-/* ★変更ポイント：固定やめる（重要） */
+/* =========================
+   UI（完全安定版）
+========================= */
 .ui{
 position:absolute;
 top:0;
 left:0;
 width:100%;
 height:100%;
-padding:18vh 7% 5vh;
-box-sizing:border-box;
-text-align:center;
 
-/* ★ここ追加：崩れ防止 */
+/* ▼ここがプロ仕様ポイント */
+padding:22vh 7% 8vh;
+box-sizing:border-box;
+
+text-align:center;
 overflow-y:auto;
 -webkit-overflow-scrolling:touch;
 }
@@ -48,8 +51,9 @@ overflow-y:auto;
 /* タイトル */
 .sub{
 font-size:13px;
-color:#333;
+color:#444;
 margin-bottom:16px;
+font-weight:500;
 }
 
 /* ORDER */
@@ -76,19 +80,19 @@ border-radius:14px;
 background:#00C300;
 color:#fff;
 text-decoration:none;
-font-weight:600;
+font-weight:700;
 margin-bottom:14px;
 }
 
-/* 説明文 */
+/* 説明文（視認性強化） */
 .coupon-text{
 font-size:12px;
-color:#222;
+color:#1f1f1f;
 line-height:1.7;
 margin:10px 0 18px;
 text-align:center;
 font-weight:500;
-opacity:0.9;
+opacity:0.95;
 }
 
 /* 下ボタン */
@@ -102,12 +106,13 @@ margin-bottom:40px;
 flex:1;
 padding:14px 0;
 border-radius:12px;
-background:rgba(245,236,220,0.9);
+background:rgba(245,236,220,0.92);
 border:1px solid #C8A96A;
 color:#111;
 text-decoration:none;
 font-size:12px;
 letter-spacing:1px;
+font-weight:500;
 }
 
 .order:active{transform:scale(0.98);}
@@ -151,23 +156,28 @@ LINEにて限定割引クーポン配信中🌸<br>
 <script>
 
 /* =========================
-   卓判別
+   卓判別（強化版）
 ========================= */
 const params = new URLSearchParams(window.location.search);
 let table = params.get("t");
 
-/* 無効チェック */
-if (!table || !["1","2","3","4","5"].includes(table)) {
+/* 安全チェック */
+const validTables = ["1","2","3","4","5"];
+
+if (!table || !validTables.includes(table)) {
+
   console.warn("table error:", table);
 
   alert(
     "テーブルが認識できません\n\n" +
     "QRに ?t=1〜5 が入っているか確認してください"
   );
+
+  table = null; // 安全停止
 }
 
 /* =========================
-   Airレジ
+   AirレジURL
 ========================= */
 const urls = {
   "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
@@ -178,16 +188,17 @@ const urls = {
 };
 
 /* =========================
-   ORDER
+   ORDER処理
 ========================= */
 document.getElementById("orderBtn").addEventListener("click", function(e){
   e.preventDefault();
 
-  if (table && urls[table]) {
-    window.location.href = urls[table];
-  } else {
-    alert("テーブル未設定（QRを読み直してください）");
+  if (!table) {
+    alert("テーブルが未設定です（QRを読み直してください）");
+    return;
   }
+
+  window.location.href = urls[table];
 
 });
 
