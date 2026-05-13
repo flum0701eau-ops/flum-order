@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+const params = new URLSearchParams(window.location.search);
+const t = params.get("t");
+
+const urls = {
+"1":"https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
+"2":"https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
+"3":"https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
+"4":"https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
+"5":"https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
+};
+
+if(urls[t]){
+window.location.href = urls[t];
+}
+</script>
+</head>
+<body>
+</body>
+</html>
