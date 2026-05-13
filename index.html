@@ -4,28 +4,29 @@
 
 const liffId = "2007912475-TlwIvzlF";
 
-/* 席保存 */
 const table = new URLSearchParams(location.search).get("t");
 
-liff.init({ liffId })
-.then(() => {
+if (table) {
+  localStorage.setItem("table", table);
+}
 
-  if (table) {
-    localStorage.setItem("table", table);
-  }
+window.onload = function () {
 
-  console.log("INIT OK");
+  liff.init({ liffId: liffId })
+  .then(() => {
 
-  console.log("isInClient:", liff.isInClient());
+    console.log("LIFF OK");
 
-  if (liff.isInClient()) {
-    console.log("CLOSE");
-    liff.closeWindow();
-  }
+    if (liff.isInClient()) {
+      liff.closeWindow();
+    }
 
-})
-.catch(err => {
-  alert("LIFF ERROR: " + JSON.stringify(err));
-});
+  })
+  .catch(err => {
+    alert("REAL ERROR: " + JSON.stringify(err));
+    console.log(err);
+  });
+
+};
 
 </script>
