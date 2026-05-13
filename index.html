@@ -1,32 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLÜM ORDER</title>
+
+<style>
+
+body{
+margin:0;
+background:#000;
+font-family:sans-serif;
+}
+
+.wrap{
+position:relative;
+width:100%;
+max-width:420px;
+margin:0 auto;
+}
+
+/* 背景 */
+.bg{
+width:100%;
+height:100vh;
+object-fit:cover;
+display:block;
+}
+
+/* UI */
+.ui{
+position:absolute;
+top:65%;
+left:50%;
+transform:translate(-50%,-50%);
+width:86%;
+text-align:center;
+}
+
+/* テキスト */
+.sub{
+font-size:13px;
+color:#333;
+margin-bottom:16px;
+}
+
+/* ORDER */
+.order{
+display:block;
+width:100%;
+padding:18px 0;
+border-radius:16px;
+background:#111;
+color:#C8A96A;
+text-decoration:none;
+letter-spacing:3px;
+font-weight:500;
+box-shadow:0 12px 30px rgba(0,0,0,0.3);
+margin-bottom:22px;
+}
+
+/* 下ボタン */
+.bottom{
+display:flex;
+gap:12px;
+}
+
+.btn{
+flex:1;
+padding:14px 0;
+border-radius:12px;
+background:rgba(245,236,220,0.9);
+border:1px solid #C8A96A;
+color:#111;
+text-decoration:none;
+font-size:12px;
+letter-spacing:1px;
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+}
+
+.order:active{transform:scale(0.98);}
+.btn:active{transform:scale(0.97);}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<img class="bg" src="flum.jpg">
+
+<div class="ui">
+
+<div class="sub">ご注文はこちらから</div>
+
+<a class="order" id="orderBtn">ORDER</a>
+
+<div class="bottom">
+  <a class="btn" href="https://www.instagram.com/flum0701/">INSTAGRAM</a>
+
+  <a class="btn" href="https://search.google.com/local/writereview?placeid=ChIJMYIVIGnnAGARTbq80Jket98&source=g.page.m.ia._&laa=nmx-review-solicitation-ia2" target="_blank">
+    REVIEWS
+  </a>
+</div>
+
+</div>
+</div>
+
+<!-- ===== LIFF SDK ===== -->
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <script>
 
+/* =========================
+   テーブル判別 + LIFF対応
+========================= */
+
 const liffId = "2007912475-TlwIvzlF";
 
-const table = new URLSearchParams(location.search).get("t");
+let table = null;
 
-if (table) {
-  localStorage.setItem("table", table);
-}
+/* ① URLから取得（QR用） */
+const params = new URLSearchParams(window.location.search);
+table = params.get("t");
 
-window.onload = function () {
+/* ② LIFF初期化 */
+liff.init({ liffId }).then(() => {
 
-  liff.init({ liffId: liffId })
-  .then(() => {
+  const url = new URL(window.location.href);
+  const liffParams = new URLSearchParams(url.search);
 
-    console.log("LIFF OK");
+  // LINE側で失われた場合の補完
+  if (!table) {
+    table = liffParams.get("t");
+  }
 
-    if (liff.isInClient()) {
-      liff.closeWindow();
-    }
+  console.log("TABLE =", table);
 
-  })
-  .catch(err => {
-    alert("REAL ERROR: " + JSON.stringify(err));
-    console.log(err);
-  });
+  if (!table) {
+    alert("テーブルが認識できません（QRを確認）");
+  }
 
+});
+
+/* =========================
+   ORDERボタン動作
+========================= */
+
+const urls = {
+  "1": "https://spo.order.airregi.jp/auth/seat?t=17d80d46-9a40-400a-ae90-4738dee7e95f&qrSize=3",
+  "2": "https://spo.order.airregi.jp/auth/seat?t=fa86f12b-3295-46aa-b35e-8ed5fe036d1a&qrSize=3",
+  "3": "https://spo.order.airregi.jp/auth/seat?t=a44bbacc-d0fa-48ec-b15b-39674dcc5623&qrSize=3",
+  "4": "https://spo.order.airregi.jp/auth/seat?t=8fb9556b-04a4-4a8e-bf0a-be712764854e&qrSize=3",
+  "5": "https://spo.order.airregi.jp/auth/seat?t=2bfd7391-9e21-44f7-939c-dcd19fbdca02&qrSize=3"
 };
 
+document.getElementById("orderBtn").addEventListener("click", function(e){
+  e.preventDefault();
+
+  if (urls[table]) {
+    window.location.href = urls[table];
+  } else {
+    alert("テーブルが認識できません（QRを確認）");
+  }
+});
+
 </script>
+
+</body>
+</html>
